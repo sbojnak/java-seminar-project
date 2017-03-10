@@ -8,9 +8,10 @@ public class Mission {
 	private String location;
 	private String description;
 
-	public Mission() {
+    public Mission() {
 		// TODO - implement Mission.Mission
 		throw new UnsupportedOperationException();
+
 	}
 
 }
