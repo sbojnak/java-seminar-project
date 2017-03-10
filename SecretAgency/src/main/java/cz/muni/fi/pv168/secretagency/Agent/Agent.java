@@ -29,4 +29,20 @@ public class Agent {
 	public void setSecurityDegree(int securityDegree) {
 		this.securityDegree = securityDegree;
 	}
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public int getSecurityDegree() {
+        return securityDegree;
+    }
 }
