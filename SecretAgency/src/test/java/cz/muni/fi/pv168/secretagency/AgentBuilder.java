@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.secretagency;
 
 import cz.muni.fi.pv168.secretagency.Agent.Agent;
-import org.apache.batik.bridge.AnimatableGenericSVGBridge;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -17,7 +16,7 @@ public class AgentBuilder {
     private Long id;
     private String name;
     private LocalDate birthDate;
-    private int securityDegree;
+    private int securityLevel;
 
     public AgentBuilder id(Long id){
         this.id = id;
@@ -39,8 +38,8 @@ public class AgentBuilder {
         return this;
     }
 
-    public AgentBuilder securityDegree(int securityDegree){
-        this.securityDegree = securityDegree;
+    public AgentBuilder securityLevel(int securityDegree){
+        this.securityLevel = securityDegree;
         return this;
     }
 
@@ -54,7 +53,7 @@ public class AgentBuilder {
         agent.setId(id);
         agent.setName(name);
         agent.setBirthDate(birthDate);
-        agent.setSecurityDegree(securityDegree);
+        agent.setSecurityLevel(securityLevel);
         return agent;
     }
 }

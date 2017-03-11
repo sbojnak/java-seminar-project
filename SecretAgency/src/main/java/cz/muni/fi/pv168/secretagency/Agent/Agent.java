@@ -7,11 +7,10 @@ public class Agent {
 	private Long id;
 	private String name;
 	private LocalDate birthDate;
-	private int securityDegree;
+	private int securityLevel;
 
 	public Agent() {
-		// TODO - implement Agent.Agent
-		throw new UnsupportedOperationException();
+
 	}
 
 	public void setId(Long id) {
@@ -26,8 +25,8 @@ public class Agent {
 		this.birthDate = birthDate;
 	}
 
-	public void setSecurityDegree(int securityDegree) {
-		this.securityDegree = securityDegree;
+	public void setSecurityLevel(int securityLevel) {
+		this.securityLevel = securityLevel;
 	}
 
     public Long getId() {
@@ -42,7 +41,7 @@ public class Agent {
         return birthDate;
     }
 
-    public int getSecurityDegree() {
-        return securityDegree;
+    public int getSecurityLevel() {
+        return securityLevel;
     }
 }

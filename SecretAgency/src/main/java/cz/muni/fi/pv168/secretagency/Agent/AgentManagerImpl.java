@@ -6,7 +6,7 @@ public class AgentManagerImpl implements AgentManager {
 
 	/**
 	 * 
-	 * @param id
+	 * @param id Id to search for
 	 */
 	public Agent findAgentById(Long id) {
 		// TODO - implement AgentManagerImpl.findAgentById
@@ -15,16 +15,15 @@ public class AgentManagerImpl implements AgentManager {
 
 	/**
 	 * 
-	 * @param agent
+	 * @param agent agent to be created
 	 */
 	public void createAgent(Agent agent) {
-		// TODO - implement AgentManagerImpl.createAgent
-		throw new UnsupportedOperationException();
+
 	}
 
 	/**
 	 * 
-	 * @param agent
+	 * @param agent agent to be edited
 	 */
 	public void editAgent(Agent agent) {
 		// TODO - implement AgentManagerImpl.editAgent
@@ -33,7 +32,7 @@ public class AgentManagerImpl implements AgentManager {
 
 	/**
 	 * 
-	 * @param id
+	 * @param id Id of agent whom will be deleted
 	 */
 	public void deleteAgent(Long id) {
 		// TODO - implement AgentManagerImpl.deleteAgent
