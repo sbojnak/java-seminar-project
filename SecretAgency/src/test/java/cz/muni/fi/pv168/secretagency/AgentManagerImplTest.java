@@ -48,7 +48,7 @@ public class AgentManagerImplTest {
 
 
     //--------------------------------------------------------------------------
-    // Actual tests
+    // test for creating agent
     //--------------------------------------------------------------------------
 
 
@@ -99,22 +99,39 @@ public class AgentManagerImplTest {
                         .name(null)
                         .build();
         assertThatThrownBy(() -> agentManager.createAgent(agentJames))
-                .isInstanceOf(ValidationException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     public void createAgentWithInvalidSecurityLevel(){
-        Agent agentMagnum = sampleMagnusGiriBuilder()
-                        .securityLevel(-1)
-                        .build();
         Agent agentJames = sampleJamesBondBuilder()
                         .securityLevel(4)
                         .build();
 
         assertThatThrownBy(() -> agentManager.createAgent(agentJames))
-                            .isInstanceOf(ValidationException.class);
+                            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void createAgentWithNegativeSecurityLevel(){
+        Agent agentMagnum = sampleMagnusGiriBuilder()
+                .securityLevel(-1)
+                .build();
+
         assertThatThrownBy(() -> agentManager.createAgent(agentMagnum))
-                            .isInstanceOf(ValidationException.class);
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void createAgentWithNullBirthDate(){
+        Agent agentMagnum = sampleMagnusGiriBuilder()
+                        .birthDate(null)
+                        .build();
+        agentManager.createAgent(agentMagnum);
+
+        assertThat(agentManager.findAgentById(agentMagnum.getId()))
+                        .isNotNull()
+                        .isEqualToComparingFieldByField(agentMagnum);
     }
 
 }
