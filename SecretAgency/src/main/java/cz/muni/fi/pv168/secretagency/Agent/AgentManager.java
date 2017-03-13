@@ -6,28 +6,30 @@ public interface AgentManager {
 
 	/**
 	 * 
-	 * @param id
+	 * @param id Id to search for
 	 */
 	Agent findAgentById(Long id);
 
 	/**
 	 * 
-	 * @param agent
+	 * @param agent agent to be created
 	 */
 	void createAgent(Agent agent);
 
 	/**
 	 * 
-	 * @param agent
+	 * @param agent agent to be edited
 	 */
 	void editAgent(Agent agent);
 
 	/**
 	 * 
-	 * @param id
+	 * @param id Id of agent we want to delete
 	 */
 	void deleteAgent(Long id);
 
 	List<Agent> listAgents();
+
+
 
 }
