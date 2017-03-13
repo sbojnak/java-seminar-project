@@ -12,5 +12,4 @@ public class Mission {
 		// TODO - implement Mission.Mission
 		throw new UnsupportedOperationException();
 	}
-
 }
