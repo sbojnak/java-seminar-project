@@ -8,7 +8,46 @@ public class Assignment {
 	private Long id;
 	private Mission mission;
 	private Agent agent;
-	private Boolean done;
+	private Boolean jobCompleted;
 	private String jobSpecification;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Mission getMission() {
+		return mission;
+	}
+
+	public void setMission(Mission mission) {
+		this.mission = mission;
+	}
+
+	public Agent getAgent() {
+		return agent;
+	}
+
+	public void setAgent(Agent agent) {
+		this.agent = agent;
+	}
+
+	public Boolean getJobCompleted() {
+		return jobCompleted;
+	}
+
+	public void setJobCompleted(Boolean jobCompleted) {
+		this.jobCompleted = jobCompleted;
+	}
+
+	public String getJobSpecification() {
+		return jobSpecification;
+	}
+
+	public void setJobSpecification(String jobSpecification) {
+		this.jobSpecification = jobSpecification;
+	}
 }
