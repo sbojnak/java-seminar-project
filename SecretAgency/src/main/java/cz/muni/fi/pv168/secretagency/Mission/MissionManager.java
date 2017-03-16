@@ -6,27 +6,27 @@ public interface MissionManager {
 
 	/**
 	 * 
-	 * @param id
+	 * @param id id of mission
 	 */
 	Mission findMissionById(Long id);
 
 	/**
 	 * 
-	 * @param mission
+	 * @param mission mission to create
 	 */
 	void createMission(Mission mission);
 
 	/**
 	 * 
-	 * @param mission
+	 * @param mission mission to edit
 	 */
 	void editMission(Mission mission);
 
 	/**
 	 * 
-	 * @param id
+	 * @param mission mission which will be deleted
 	 */
-	void deleteMission(Long id);
+	void deleteMission(Mission mission);
 
 	List<Mission> listMissions();
 
