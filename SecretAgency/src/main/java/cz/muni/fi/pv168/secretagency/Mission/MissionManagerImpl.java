@@ -6,7 +6,7 @@ public class MissionManagerImpl implements MissionManager {
 
 	/**
 	 * 
-	 * @param id
+	 * @param id mission id
 	 */
 	public Mission findMissionById(Long id) {
 		// TODO - implement MissionManagerImpl.findMissionById
@@ -15,7 +15,7 @@ public class MissionManagerImpl implements MissionManager {
 
 	/**
 	 * 
-	 * @param mission
+	 * @param mission mission to create
 	 */
 	public void createMission(Mission mission) {
 		// TODO - implement MissionManagerImpl.createMission
@@ -24,7 +24,7 @@ public class MissionManagerImpl implements MissionManager {
 
 	/**
 	 * 
-	 * @param mission
+	 * @param mission mission to edit
 	 */
 	public void editMission(Mission mission) {
 		// TODO - implement MissionManagerImpl.editMission
@@ -33,9 +33,9 @@ public class MissionManagerImpl implements MissionManager {
 
 	/**
 	 * 
-	 * @param id
+	 * @param mission mission which will be deleted
 	 */
-	public void deleteMission(Long id) {
+	public void deleteMission(Mission mission) {
 		// TODO - implement MissionManagerImpl.deleteMission
 		throw new UnsupportedOperationException();
 	}

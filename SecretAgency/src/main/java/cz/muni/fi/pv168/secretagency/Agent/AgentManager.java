@@ -20,13 +20,13 @@ public interface AgentManager {
 	 * 
 	 * @param agent agent to be edited
 	 */
-	void editAgent(Agent agent);
+	void updateAgent(Agent agent);
 
 	/**
 	 * 
-	 * @param id Id of agent we want to delete
+	 * @param agent agent which will be deleted
 	 */
-	void deleteAgent(Long id);
+	void deleteAgent(Agent agent);
 
 	List<Agent> listAgents();
 

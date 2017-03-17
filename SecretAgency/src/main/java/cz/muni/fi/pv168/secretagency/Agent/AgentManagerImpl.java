@@ -25,16 +25,16 @@ public class AgentManagerImpl implements AgentManager {
 	 * 
 	 * @param agent agent to be edited
 	 */
-	public void editAgent(Agent agent) {
-		// TODO - implement AgentManagerImpl.editAgent
+	public void updateAgent(Agent agent) {
+		// TODO - implement AgentManagerImpl.updateAgent
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * 
-	 * @param id Id of agent whom will be deleted
+	 * @param agent Agent which will be deleted
 	 */
-	public void deleteAgent(Long id) {
+	public void deleteAgent(Agent agent) {
 		// TODO - implement AgentManagerImpl.deleteAgent
 		throw new UnsupportedOperationException();
 	}
