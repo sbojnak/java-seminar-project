@@ -65,7 +65,6 @@ public class AssignmentManagerImplTest {
         assignmentManager.createAssignment(assignment);
         Long assignmentId = assignment.getId();
         assertThat(assignmentId).isNotNull();
-
         assertThat(assignmentManager.findAssignmentById(assignment.getId()))
                 .isNotSameAs(assignment)
                 .isEqualToComparingFieldByField(assignment);
