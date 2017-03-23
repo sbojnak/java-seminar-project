@@ -15,7 +15,6 @@ public class AssignmentBuilder {
     private Mission mission;
     private Agent agent;
     private Boolean jobCompleted;
-    private String jobSpecification;
 
     public AssignmentBuilder id(Long id){
         this.id = id;
@@ -37,10 +36,6 @@ public class AssignmentBuilder {
         return  this;
     }
 
-    public AssignmentBuilder jobSpecification(String jobSpecification){
-        this.jobSpecification = jobSpecification;
-        return this;
-    }
 
     /**
      * Creates new instance of {@link Assignment} with configured properties.
@@ -53,7 +48,6 @@ public class AssignmentBuilder {
         assignment.setMission(mission);
         assignment.setAgent(agent);
         assignment.setJobCompleted(jobCompleted);
-        assignment.setJobSpecification(jobSpecification);
         return assignment;
     }
 

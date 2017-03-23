@@ -9,7 +9,6 @@ public class Assignment {
 	private Mission mission;
 	private Agent agent;
 	private Boolean jobCompleted;
-	private String jobSpecification;
 
 	public Long getId() {
 		return id;
@@ -41,13 +40,5 @@ public class Assignment {
 
 	public void setJobCompleted(Boolean jobCompleted) {
 		this.jobCompleted = jobCompleted;
-	}
-
-	public String getJobSpecification() {
-		return jobSpecification;
-	}
-
-	public void setJobSpecification(String jobSpecification) {
-		this.jobSpecification = jobSpecification;
 	}
 }

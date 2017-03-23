@@ -160,7 +160,7 @@ public class MissionManagerImplTest {
         Mission secondMission = killTheTerroristMissionBuilder().build();
         missionManager.createMission(mission);
         missionManager.createMission(secondMission);
-        missionManager.deleteMission(mission.getId());
+        missionManager.deleteMission(mission);
         assertThat(missionManager.findMissionById(mission.getId())).isNull();
         assertThat(missionManager.findMissionById(secondMission.getId())).isNotNull();
     }

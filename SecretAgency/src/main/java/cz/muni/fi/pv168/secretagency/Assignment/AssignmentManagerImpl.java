@@ -63,9 +63,9 @@ public class AssignmentManagerImpl implements AssignmentManager {
 
 	/**
 	 * 
-	 * @param assignment
+	 * @param assignmentId
 	 */
-	public Assignment findAssignment(Assignment assignment) {
+	public Assignment findAssignmentById(Long assignmentId) {
 		// TODO - implement AssignmentManagerImpl.findAssignment
 		throw new UnsupportedOperationException();
 	}

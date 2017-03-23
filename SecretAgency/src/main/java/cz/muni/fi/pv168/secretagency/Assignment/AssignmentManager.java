@@ -45,8 +45,8 @@ public interface AssignmentManager {
 
 	/**
 	 * 
-	 * @param assignment
+	 * @param assignmentId
 	 */
-	Assignment findAssignment(Assignment assignment);
+	Assignment findAssignmentById(Long assignmentId);
 
 }
