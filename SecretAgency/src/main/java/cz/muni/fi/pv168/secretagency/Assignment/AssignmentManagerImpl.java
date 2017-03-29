@@ -4,12 +4,19 @@ import cz.muni.fi.pv168.secretagency.Agent.Agent;
 import cz.muni.fi.pv168.secretagency.Mission.Mission;
 
 import java.util.List;
+import javax.sql.DataSource;
 
 public class AssignmentManagerImpl implements AssignmentManager {
 
+	private final DataSource dataSource;
+
+	public AssignmentManagerImpl(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
 	/**
 	 * 
-	 * @param assignment
+	 * @param assignment assigment to be created
 	 */
 	public void createAssignment(Assignment assignment) {
 		// TODO - implement AssignmentManagerImpl.createAssignment
@@ -18,7 +25,7 @@ public class AssignmentManagerImpl implements AssignmentManager {
 
 	/**
 	 * 
-	 * @param assignment
+	 * @param assignment assignment to be removed
 	 */
 	public void removeAssignment(Assignment assignment) {
 		// TODO - implement AssignmentManagerImpl.removeAssignment
@@ -27,7 +34,7 @@ public class AssignmentManagerImpl implements AssignmentManager {
 
 	/**
 	 * 
-	 * @param mission
+	 * @param mission mission from which we want agents
 	 */
 	public List<Agent> findAgentsOfMission(Mission mission) {
 		// TODO - implement AssignmentManagerImpl.findAgentsOfMission
@@ -36,7 +43,7 @@ public class AssignmentManagerImpl implements AssignmentManager {
 
 	/**
 	 * 
-	 * @param agent
+	 * @param agent agent which missions we want
 	 */
 	public List<Mission> findMissionsOfAgent(Agent agent) {
 		// TODO - implement AssignmentManagerImpl.findMissionsOfAgent
@@ -45,7 +52,7 @@ public class AssignmentManagerImpl implements AssignmentManager {
 
 	/**
 	 * 
-	 * @param assignment
+	 * @param assignment assignment to be checked
 	 */
 	public Boolean isAssignmentDone(Assignment assignment) {
 		// TODO - implement AssignmentManagerImpl.isAssignmentDone
@@ -54,7 +61,7 @@ public class AssignmentManagerImpl implements AssignmentManager {
 
 	/**
 	 * 
-	 * @param assignment
+	 * @param assignment assignment to be updated
 	 */
 	public void updateAssignment(Assignment assignment) {
 		// TODO - implement AssignmentManagerImpl.updateAssignment
@@ -63,7 +70,7 @@ public class AssignmentManagerImpl implements AssignmentManager {
 
 	/**
 	 * 
-	 * @param assignmentId
+	 * @param assignmentId id of assignment
 	 */
 	public Assignment findAssignmentById(Long assignmentId) {
 		// TODO - implement AssignmentManagerImpl.findAssignment

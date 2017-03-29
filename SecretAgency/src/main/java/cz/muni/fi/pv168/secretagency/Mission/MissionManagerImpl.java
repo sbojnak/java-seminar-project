@@ -1,10 +1,17 @@
 package cz.muni.fi.pv168.secretagency.Mission;
 
 import java.util.List;
+import javax.sql.DataSource;
 
 public class MissionManagerImpl implements MissionManager {
 
-	/**
+    private final DataSource dataSource;
+
+    public MissionManagerImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    /**
 	 * 
 	 * @param id mission id
 	 */

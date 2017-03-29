@@ -1,7 +1,5 @@
 package cz.muni.fi.pv168.secretagency;
 
-import a.i.A;
-import a.j.V;
 import cz.muni.fi.pv168.secretagency.Agent.Agent;
 import cz.muni.fi.pv168.secretagency.Agent.AgentManagerImpl;
 import org.junit.Before;
@@ -22,7 +20,7 @@ import static org.assertj.core.api.Assertions.*;
  */
 public class AgentManagerImplTest {
 
-    private AgentManagerImpl agentManager;
+    /*private AgentManagerImpl agentManager;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -293,7 +291,7 @@ public class AgentManagerImplTest {
 
         assertThat(agentManager.listAgents()).hasSize(2)
                         .containsOnly(magnus,james);
-    }
+    }*/
 
 
 }

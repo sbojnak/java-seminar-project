@@ -1,10 +1,17 @@
 package cz.muni.fi.pv168.secretagency.Agent;
 
 import java.util.List;
+import javax.sql.DataSource;
 
 public class AgentManagerImpl implements AgentManager {
 
-	/**
+    private final DataSource dataSource;
+
+    public AgentManagerImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    /**
 	 * 
 	 * @param id Id to search for
 	 */
