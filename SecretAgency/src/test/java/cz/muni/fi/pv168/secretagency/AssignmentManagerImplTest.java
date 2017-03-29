@@ -1,11 +1,18 @@
 package cz.muni.fi.pv168.secretagency;
 
+import cz.muni.fi.pv168.secretagency.Agent.AgentManagerImpl;
 import cz.muni.fi.pv168.secretagency.Assignment.Assignment;
 import cz.muni.fi.pv168.secretagency.Assignment.AssignmentManagerImpl;
+import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import static java.time.Month.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,15 +24,37 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class AssignmentManagerImplTest {
 
-    /*private AssignmentManagerImpl assignmentManager;
+    private AssignmentManagerImpl assignmentManager;
+
+    private DataSource dataSource;
+
+    @Before
+    public void setUp() throws SQLException {
+        dataSource = prepareDataSource();
+       /* try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("CREATE TABLE NOT_CREATED_TEST_WILL_NOT_WORK(").executeUpdate();
+        }*/
+        assignmentManager = new AssignmentManagerImpl(dataSource);
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("DROP TABLE ASSIGNMENT").executeUpdate();
+        }
+    }
+
+    private static DataSource prepareDataSource() throws SQLException {
+        EmbeddedDataSource ds = new EmbeddedDataSource();
+        ds.setDatabaseName("memory:secretAgencyAssignment-test");
+        ds.setCreateDatabase("create");
+        return ds;
+    }
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    @Before
-    public void setUp() {
-        assignmentManager = new AssignmentManagerImpl(dataSource);
-    }
+
 
     //--------------------------------------------------------------------------
     // Preparing sample test data
@@ -64,6 +93,6 @@ public class AssignmentManagerImplTest {
         assertThat(assignmentManager.findAssignmentById(assignment.getId()))
                 .isNotSameAs(assignment)
                 .isEqualToComparingFieldByField(assignment);
-    } */
+    }
 
 }

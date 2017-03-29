@@ -2,13 +2,18 @@ package cz.muni.fi.pv168.secretagency;
 
 import cz.muni.fi.pv168.secretagency.Agent.Agent;
 import cz.muni.fi.pv168.secretagency.Agent.AgentManagerImpl;
+import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import javax.sql.DataSource;
 import javax.xml.bind.ValidationException;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import static java.time.Month.*;
@@ -20,15 +25,39 @@ import static org.assertj.core.api.Assertions.*;
  */
 public class AgentManagerImplTest {
 
-    /*private AgentManagerImpl agentManager;
+    private AgentManagerImpl agentManager;
+    private DataSource dataSource;
+
+    @Before
+    public void setUp() throws SQLException {
+        dataSource = prepareDataSource();
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("CREATE TABLE AGENT ("
+                    + "id bigint primary key generated always as identity,"
+                    + "name varchar(50) not null,"
+                    + "birthDate date not null,"
+                    + "securityLevel int)").executeUpdate();
+        }
+        agentManager = new AgentManagerImpl(dataSource);
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("DROP TABLE AGENT").executeUpdate();
+        }
+    }
+
+    private static DataSource prepareDataSource() throws SQLException {
+        EmbeddedDataSource ds = new EmbeddedDataSource();
+        ds.setDatabaseName("memory:secretAgencyAgent-test");
+        ds.setCreateDatabase("create");
+        return ds;
+    }
+
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
-
-    @Before
-    public void setUp() {
-        agentManager = new AgentManagerImpl();
-    }
 
     //--------------------------------------------------------------------------
     // Preparing sample test data
@@ -166,7 +195,8 @@ public class AgentManagerImplTest {
             testUpdateAgent((agent) -> agent.setName("Syrdan amudan"));
     }
 
-    @Test void updateAgentBirthDate(){
+    @Test
+    public void updateAgentBirthDate(){
         testUpdateAgent((agent) -> agent.setBirthDate(LocalDate.of(1995,SEPTEMBER,2)));
     }
 
@@ -291,7 +321,7 @@ public class AgentManagerImplTest {
 
         assertThat(agentManager.listAgents()).hasSize(2)
                         .containsOnly(magnus,james);
-    }*/
+    }
 
 
 }

@@ -1,13 +1,18 @@
 package cz.muni.fi.pv168.secretagency;
 
+import cz.muni.fi.pv168.secretagency.Agent.AgentManagerImpl;
 import cz.muni.fi.pv168.secretagency.Mission.Mission;
 import cz.muni.fi.pv168.secretagency.Mission.MissionManagerImpl;
+import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import javax.sql.DataSource;
 import javax.xml.bind.ValidationException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.*;
@@ -22,15 +27,41 @@ import static org.assertj.core.api.Assertions.*;
  */
 public class MissionManagerImplTest {
 
-   /* private MissionManagerImpl missionManager;
+    private MissionManagerImpl missionManager;
+    private DataSource dataSource;
+
+    @Before
+    public void setUp() throws SQLException {
+        dataSource = prepareDataSource();
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("CREATE TABLE MISSION ("
+                    + "id bigint primary key generated always as identity,"
+                    + "name varchar(50) not null,"
+                    + "goal varchar(50) not null,"
+                    + "location varchar(50) not null,"
+                    + "descriptions varchar(255) not null)").executeUpdate();
+        }
+        missionManager = new MissionManagerImpl(dataSource);
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("DROP TABLE MISSION").executeUpdate();
+        }
+    }
+
+    private static DataSource prepareDataSource() throws SQLException {
+        EmbeddedDataSource ds = new EmbeddedDataSource();
+        ds.setDatabaseName("memory:secretAgencyMission-test");
+        ds.setCreateDatabase("create");
+        return ds;
+    }
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    @Before
-    public void setUp() {
-        missionManager = new MissionManagerImpl(dataSource);
-    }
+
 
     private MissionBuilder goToShopMissionBuilder() {
         return new MissionBuilder().id(null)
@@ -96,7 +127,7 @@ public class MissionManagerImplTest {
     }
 
     @FunctionalInterface
-    private static interface Operation<T> {
+    private interface Operation<T> {
         void callOn(T subjectOfOperation);
     }
 
@@ -178,5 +209,5 @@ public class MissionManagerImplTest {
         //change to containsonly, when finding out, how to clear database
         assertThat(missionManager.listMissions()).usingFieldByFieldElementComparator()
                 .contains(shopMission, terroristMission);
-    }*/
+    }
 }
