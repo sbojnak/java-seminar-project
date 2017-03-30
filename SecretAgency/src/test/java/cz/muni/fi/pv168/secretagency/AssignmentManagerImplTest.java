@@ -80,8 +80,7 @@ public class AssignmentManagerImplTest {
     private AssignmentBuilder sampleFindAndKillAssigment(){
         return new AssignmentBuilder()
                 .agent(sampleJamesBondBuilder().build())
-                .mission(killTheTerroristMissionBuilder().build())
-                .jobCompleted(false);
+                .mission(killTheTerroristMissionBuilder().build());
     }
 
     @Test

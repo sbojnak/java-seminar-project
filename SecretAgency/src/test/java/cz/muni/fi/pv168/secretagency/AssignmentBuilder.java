@@ -14,26 +14,19 @@ public class AssignmentBuilder {
     private Long id;
     private Mission mission;
     private Agent agent;
-    private Boolean jobCompleted;
-
     public AssignmentBuilder id(Long id){
         this.id = id;
         return this;
     }
 
-    public AssignmentBuilder mission(Mission mission){
+    AssignmentBuilder mission(Mission mission){
         this.mission = mission;
         return this;
     }
 
-    public AssignmentBuilder agent(Agent agent){
+    AssignmentBuilder agent(Agent agent){
         this.agent = agent;
         return this;
-    }
-
-    public AssignmentBuilder jobCompleted(boolean status){
-        this.jobCompleted = status;
-        return  this;
     }
 
 
@@ -42,12 +35,11 @@ public class AssignmentBuilder {
      *
      * @return new instance of {@link Assignment} with configured properties.
      */
-    public Assignment build(){
+    Assignment build(){
         Assignment assignment = new Assignment();
         assignment.setId(id);
         assignment.setMission(mission);
         assignment.setAgent(agent);
-        assignment.setJobCompleted(jobCompleted);
         return assignment;
     }
 

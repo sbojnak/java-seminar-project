@@ -8,7 +8,17 @@ public class Assignment {
 	private Long id;
 	private Mission mission;
 	private Agent agent;
-	private Boolean jobCompleted;
+    private boolean jobCompleted;
+
+
+    boolean isJobCompleted() {
+		return jobCompleted;
+	}
+
+	public void setJobCompleted(boolean jobCompleted) {
+		this.jobCompleted = jobCompleted;
+	}
+
 
 	public Long getId() {
 		return id;
@@ -32,13 +42,5 @@ public class Assignment {
 
 	public void setAgent(Agent agent) {
 		this.agent = agent;
-	}
-
-	public Boolean getJobCompleted() {
-		return jobCompleted;
-	}
-
-	public void setJobCompleted(Boolean jobCompleted) {
-		this.jobCompleted = jobCompleted;
 	}
 }
