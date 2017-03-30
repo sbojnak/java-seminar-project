@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.secretagency;
 import cz.muni.fi.pv168.secretagency.Agent.AgentManagerImpl;
 import cz.muni.fi.pv168.secretagency.Mission.Mission;
 import cz.muni.fi.pv168.secretagency.Mission.MissionManagerImpl;
+import cz.muni.fi.pv168.secretagency.commons.ServiceFailureException;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.After;
 import org.junit.Before;
@@ -39,7 +40,7 @@ public class MissionManagerImplTest {
                     + "name varchar(50) not null,"
                     + "goal varchar(50) not null,"
                     + "location varchar(50) not null,"
-                    + "descriptions varchar(255) not null)").executeUpdate();
+                    + "description varchar(255) not null)").executeUpdate();
         }
         missionManager = new MissionManagerImpl(dataSource);
     }
@@ -108,6 +109,7 @@ public class MissionManagerImplTest {
         Mission mission = goToShopMissionBuilder().build();
         missionManager.createMission(mission);
         Long missionId = mission.getId();
+        Mission mission2 = missionManager.findMissionById(missionId);
         assertThat(missionManager.findMissionById(missionId)).isEqualToComparingFieldByField(mission);
     }
 
@@ -116,14 +118,16 @@ public class MissionManagerImplTest {
         missionManager.createMission(null);
     }
 
-    @Test(expected = SQLException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createMissionWithNUllGoal() {
-        nullGoalMissionBuilder().build();
+        Mission mission = nullGoalMissionBuilder().build();
+        missionManager.createMission(mission);
     }
 
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createMissionWithTooLongName() {
-        tooLongNameMissionBuilder().build();
+        Mission mission = tooLongNameMissionBuilder().build();
+        missionManager.createMission(mission);
     }
 
     @FunctionalInterface
@@ -164,7 +168,7 @@ public class MissionManagerImplTest {
         editMissionOperation((mission) -> mission.setName("Updated name"));
     }
 
-    @Test(expected = SQLException.class)
+    @Test(expected = ServiceFailureException.class)
     public void editMissionWithNullGoal() {
         editMissionOperation((mission) -> mission.setGoal(null));
     }
@@ -180,7 +184,7 @@ public class MissionManagerImplTest {
         missionManager.createMission(mission);
         mission.setName("This is longer name of mission that is really allowed, " +
                 "it means validation exception should be thrown and it will be tested");
-        expectedException.expect(ValidationException.class);
+        expectedException.expect(IllegalArgumentException.class);
         missionManager.editMission(mission);
     }
 

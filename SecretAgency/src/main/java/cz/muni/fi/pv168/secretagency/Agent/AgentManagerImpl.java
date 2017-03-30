@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.sql.DataSource;
 
-import static org.bouncycastle.asn1.x500.style.RFC4519Style.st;
 
 public class AgentManagerImpl implements AgentManager {
 

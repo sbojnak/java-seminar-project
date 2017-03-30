@@ -5,6 +5,11 @@ import cz.muni.fi.pv168.secretagency.Mission.MissionManagerImpl;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Properties;
 
 /**
@@ -22,6 +27,18 @@ public class Main {
         ds.setUsername(myconf.getProperty("jdbc.user"));
         ds.setPassword(myconf.getProperty("jdbc.password"));
 
-        MissionManager mission = new MissionManagerImpl(ds);
+        try(Connection con = ds.getConnection()) {
+            for (String line : Files.readAllLines(Paths.get("src", "main", "resources", "data.sql"))) {
+                if(line.trim().isEmpty()) continue;
+                if(line.endsWith(";")) line=line.substring(0,line.length()-1);
+                try (PreparedStatement st1 = con.prepareStatement(line)) {
+                    st1.execute();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
