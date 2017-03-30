@@ -2,6 +2,8 @@ package cz.muni.fi.pv168.secretagency;
 
 import cz.muni.fi.pv168.secretagency.Agent.Agent;
 import cz.muni.fi.pv168.secretagency.Agent.AgentManagerImpl;
+import cz.muni.fi.pv168.secretagency.commons.IllegalEntityException;
+import cz.muni.fi.pv168.secretagency.commons.ServiceFailureException;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.After;
 import org.junit.Before;
@@ -15,6 +17,7 @@ import javax.xml.bind.ValidationException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.function.Consumer;
 
 import static java.time.Month.*;
 import static org.assertj.core.api.Assertions.*;
@@ -35,7 +38,7 @@ public class AgentManagerImplTest {
             connection.prepareStatement("CREATE TABLE AGENT ("
                     + "id bigint primary key generated always as identity,"
                     + "name varchar(50) not null,"
-                    + "birthDate date not null,"
+                    + "birthDate date,"
                     + "securityLevel int)").executeUpdate();
         }
         agentManager = new AgentManagerImpl(dataSource);
@@ -120,7 +123,7 @@ public class AgentManagerImplTest {
         Agent agentMagnum = sampleMagnusGiriBuilder()
                         .id(1L)
                         .build();
-        expectedException.expect(ValidationException.class);
+        expectedException.expect(IllegalArgumentException.class);
         agentManager.createAgent(agentMagnum);
     }
 
@@ -130,7 +133,7 @@ public class AgentManagerImplTest {
                         .name(null)
                         .build();
         assertThatThrownBy(() -> agentManager.createAgent(agentJames))
-                .isInstanceOf(ValidationException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -140,7 +143,7 @@ public class AgentManagerImplTest {
                         .build();
 
         assertThatThrownBy(() -> agentManager.createAgent(agentJames))
-                            .isInstanceOf(ValidationException.class);
+                            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -150,7 +153,7 @@ public class AgentManagerImplTest {
                 .build();
 
         assertThatThrownBy(() -> agentManager.createAgent(agentMagnum))
-                .isInstanceOf(ValidationException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -174,13 +177,13 @@ public class AgentManagerImplTest {
         void callOn(T subjectOfOperation);
     }
 
-    private void testUpdateAgent(Operation<Agent> updateOperation) {
+    private void testUpdateAgent(Consumer<Agent> updateOperation) {
         Agent agentForUpdate = sampleMagnusGiriBuilder().build();
         Agent anotherAgent = sampleJamesBondBuilder().build();
         agentManager.createAgent(agentForUpdate);
         agentManager.createAgent(anotherAgent);
 
-        updateOperation.callOn(agentForUpdate);
+        updateOperation.accept(agentForUpdate);
 
         agentManager.updateAgent(agentForUpdate);
         assertThat(agentManager.findAgentById(agentForUpdate.getId()))
@@ -220,7 +223,7 @@ public class AgentManagerImplTest {
     @Test
     public void updateNonExistingAgent() {
         Agent agent = sampleMagnusGiriBuilder().id(1L).build();
-        expectedException.expect(ValidationException.class);
+        expectedException.expect(IllegalEntityException.class);
         agentManager.updateAgent(agent);
     }
 
@@ -231,7 +234,7 @@ public class AgentManagerImplTest {
 
         agent.setName(null);
 
-        expectedException.expect(ValidationException.class);
+        expectedException.expect(IllegalArgumentException.class);
         agentManager.updateAgent(agent);
     }
 
@@ -242,7 +245,7 @@ public class AgentManagerImplTest {
 
         agent.setBirthDate(null);
 
-        expectedException.expect(ValidationException.class);
+        expectedException.expect(IllegalArgumentException.class);
         agentManager.updateAgent(agent);
     }
 
@@ -253,7 +256,7 @@ public class AgentManagerImplTest {
 
         agent.setSecurityLevel(5);
 
-        expectedException.expect(ValidationException.class);
+        expectedException.expect(IllegalArgumentException.class);
         agentManager.updateAgent(agent);
     }
 
@@ -264,7 +267,7 @@ public class AgentManagerImplTest {
 
         agent.setSecurityLevel(-2);
 
-        expectedException.expect(ValidationException.class);
+        expectedException.expect(IllegalArgumentException.class);
         agentManager.updateAgent(agent);
     }
 
@@ -296,14 +299,14 @@ public class AgentManagerImplTest {
     @Test
     public void deleteAgentWithNullId(){
         Agent agent = sampleMagnusGiriBuilder().id(null).build();
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(IllegalEntityException.class);
         agentManager.deleteAgent(agent);
     }
 
     @Test
     public void deleteNonExistingAgent(){
         Agent agent = sampleMagnusGiriBuilder().id(1L).build();
-        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expect(IllegalEntityException.class);
         agentManager.deleteAgent(agent);
     }
 
@@ -320,7 +323,8 @@ public class AgentManagerImplTest {
         agentManager.createAgent(james);
 
         assertThat(agentManager.listAgents()).hasSize(2)
-                        .containsOnly(magnus,james);
+                        .usingFieldByFieldElementComparator()
+                .containsOnly(magnus,james);
     }
 
 
