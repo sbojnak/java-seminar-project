@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.secretagency.Agent.Agent;
 import cz.muni.fi.pv168.secretagency.Agent.AgentManager;
 import cz.muni.fi.pv168.secretagency.Agent.AgentManagerImpl;
 import cz.muni.fi.pv168.secretagency.Mission.Mission;
+import cz.muni.fi.pv168.secretagency.Mission.MissionManager;
 import cz.muni.fi.pv168.secretagency.Mission.MissionManagerImpl;
 import cz.muni.fi.pv168.secretagency.commons.DBUtils;
 import cz.muni.fi.pv168.secretagency.commons.ServiceFailureException;
@@ -112,8 +113,12 @@ public class AssignmentManagerImpl implements AssignmentManager {
 	 * @param assignment assignment to be checked
 	 */
 	public Boolean isAssignmentDone(Assignment assignment) {
-		// TODO - implement AssignmentManagerImpl.isAssignmentDone
-		throw new UnsupportedOperationException();
+		if(assignment.getId() == null) {
+			throw new IllegalArgumentException
+					("Id of assignment is null, not possible to find data in table");
+		}
+		Assignment assignmentFromDB = findAssignmentById(assignment.getId());
+		return assignmentFromDB.isJobCompleted();
 	}
 
 	@Override
@@ -139,8 +144,40 @@ public class AssignmentManagerImpl implements AssignmentManager {
 	 * @param assignmentId id of assignment
 	 */
 	public Assignment findAssignmentById(Long assignmentId) {
-		// TODO - implement AssignmentManagerImpl.updateAssignment
-		throw new UnsupportedOperationException();
+		if(dataSource == null) {
+			throw new IllegalStateException("DataSource is not set");
+		}
+
+		if (assignmentId == null) {
+			throw new IllegalArgumentException("id is null");
+		}
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = dataSource.getConnection();
+			preparedStatement = connection.prepareStatement(
+					"SELECT id, name, birthDate, securityLevel FROM agent WHERE id = ?");
+			preparedStatement.setLong(1, assignmentId);
+			ResultSet rs = preparedStatement.executeQuery();
+			rs.next();
+			return rowToAssignment(rs);
+		} catch (SQLException ex) {
+			throw new ServiceFailureException("Error when selecting agent with id " + assignmentId, ex);
+		} finally {
+			DBUtils.closeQuietly(connection, preparedStatement);
+		}
+	}
+
+	private Assignment rowToAssignment(ResultSet rs) throws SQLException {
+		AgentManager agentManager = new AgentManagerImpl(dataSource);
+		MissionManager missionManager = new MissionManagerImpl(dataSource);
+		Assignment assignment = new Assignment();
+		assignment.setAgent(agentManager.findAgentById(rs.getLong("agentId")));
+		assignment.setMission(missionManager.findMissionById(rs.getLong("missionId")));
+		assignment.setJobCompleted(rs.getBoolean("jobCompleted"));
+		assignment.setId(rs.getLong("id"));
+		return assignment;
 	}
 
 	private void validateAssignment(Assignment assignment) {
