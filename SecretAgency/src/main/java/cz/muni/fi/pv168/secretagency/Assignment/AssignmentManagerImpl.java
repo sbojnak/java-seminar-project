@@ -157,13 +157,13 @@ public class AssignmentManagerImpl implements AssignmentManager {
 		try {
 			connection = dataSource.getConnection();
 			preparedStatement = connection.prepareStatement(
-					"SELECT id, name, birthDate, securityLevel FROM agent WHERE id = ?");
+					"SELECT id, agentID, missionID, jobCompleted FROM ASSIGNMENT WHERE id = ?");
 			preparedStatement.setLong(1, assignmentId);
 			ResultSet rs = preparedStatement.executeQuery();
 			rs.next();
 			return rowToAssignment(rs);
 		} catch (SQLException ex) {
-			throw new ServiceFailureException("Error when selecting agent with id " + assignmentId, ex);
+			throw new ServiceFailureException("Error when selecting assignment with id " + assignmentId, ex);
 		} finally {
 			DBUtils.closeQuietly(connection, preparedStatement);
 		}
