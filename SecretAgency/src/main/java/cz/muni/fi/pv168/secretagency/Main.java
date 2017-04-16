@@ -3,7 +3,9 @@ package cz.muni.fi.pv168.secretagency;
 import cz.muni.fi.pv168.secretagency.Mission.MissionManager;
 import cz.muni.fi.pv168.secretagency.Mission.MissionManagerImpl;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.derby.jdbc.EmbeddedDriver;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,6 +21,9 @@ import java.util.Properties;
 public class Main {
 
     public static void main(String[] args) throws IOException{
+    }
+
+    public static DataSource createDatabase() throws IOException {
         Properties myconf = new Properties();
         myconf.load(Main.class.getResourceAsStream("/myconf.properties"));
 
@@ -40,5 +45,6 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return ds;
     }
 }
