@@ -6,7 +6,12 @@
 
     <groupId>cz.muni.fi.pv168</groupId>
     <artifactId>secretagency</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>web</module>
+        <module>webagency</module>
+    </modules>
 
     <dependencies>
         <dependency>
@@ -47,10 +52,23 @@
             <version>2.1</version>
         </dependency>
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>6.0</version>
-            <scope>provided</scope>
+            <groupId>org.springframework.osgi</groupId>
+            <artifactId>org.springframework.osgi-library</artifactId>
+            <type>libd</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

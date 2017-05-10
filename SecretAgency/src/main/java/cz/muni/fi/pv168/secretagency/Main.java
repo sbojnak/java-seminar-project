@@ -24,7 +24,7 @@ public class Main {
     }
 
     public static DataSource createDatabase() throws IOException {
-        Properties myconf = new Properties();
+        /*Properties myconf = new Properties();
         myconf.load(Main.class.getResourceAsStream("/myconf.properties"));
 
         BasicDataSource ds = new BasicDataSource();
@@ -39,12 +39,28 @@ public class Main {
                 try (PreparedStatement st1 = con.prepareStatement(line)) {
                     st1.execute();
                 } catch (SQLException e) {
+                    System.out.println(e.getMessage());
                     e.printStackTrace();
                 }
             }
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        return ds;
+        return ds;*/
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setDriverClassName(EmbeddedDriver.class.getName());
+        basicDataSource.setUrl("jdbc:derby:memory:missionsDB;create=true");
+        try(Connection con = basicDataSource.getConnection()){
+            con.prepareStatement("CREATE TABLE MISSION ("
+                    + "id bigint primary key generated always as identity,"
+                    + "name varchar(50) not null,"
+                    + "goal varchar(50) not null,"
+                    + "location varchar(50) not null,"
+                    + "description varchar(255) not null)").executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return basicDataSource;
     }
 }
